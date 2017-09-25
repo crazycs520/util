@@ -9,8 +9,8 @@ import (
 	"strings"
 )
 
-var fileURL = "/Users/cs/note"
-var cmdtypora = "/Applications/Typora 2.app/Contents/MacOS/Typora"
+var fileURL = "/Users/chenshuang/note"
+var cmdtypora = "/Applications/Typora.app/Contents/MacOS/Typora"
 
 func printFile(file os.FileInfo, deep int) {
 	for i := 0; i < deep; i++ {
@@ -59,8 +59,8 @@ func main() {
 		log.Fatal(err)
 	}
 	defer rootDir.Close()
-	if l == 1 {
-		if os.Args[1] == "ll" {
+	if l == 1 || l==0{
+		if l==0 || os.Args[1] == "ll" {
 			printDir(fs, fileURL, 0)
 		} else if os.Args[1] == "ls" {
 			for _, f := range fs {
@@ -112,7 +112,7 @@ func main() {
 						files, err := _dirpath.Readdir(0)
 						for _, file := range files {
 							if strings.Contains(file.Name(), os.Args[2]) {
-								cmd := exec.Command("/Applications/Typora 2.app/Contents/MacOS/Typora", path.Join(_path, file.Name()))
+								cmd := exec.Command(cmdtypora, path.Join(_path, file.Name()))
 								err := cmd.Start()
 								if err != nil {
 									log.Fatal(err)
@@ -149,7 +149,7 @@ func main() {
 			if err != nil {
 				log.Fatalf("create file %s error : %v", file, err)
 			}
-			cmd := exec.Command("/Applications/Typora 2.app/Contents/MacOS/Typora", file)
+			cmd := exec.Command(cmdtypora, file)
 			err = cmd.Start()
 			if err != nil {
 				log.Fatal(err)
